@@ -1,0 +1,102 @@
+import wollok.game.*
+import visuales.*
+
+program BatallaNaval
+{	
+	game.title("Batalla Naval")
+	game.height(14)
+	game.width(11)
+	game.ground("wat.png")
+	
+
+
+
+game.addVisualIn(blanco, game.at(0, 12))
+
+
+
+//NUMEROS
+	game.addVisualIn(uno, game.at(0, 11))
+	game.addVisualIn(dos, game.at(0, 10))
+	game.addVisualIn(tres, game.at(0, 9))
+	game.addVisualIn(cuatro, game.at(0, 8))
+	game.addVisualIn(cinco, game.at(0, 7))
+	game.addVisualIn(seis, game.at(0, 6))
+	game.addVisualIn(siete, game.at(0, 5))
+	game.addVisualIn(ocho, game.at(0, 4))
+	game.addVisualIn(nueve, game.at(0, 3))
+	game.addVisualIn(diez, game.at(0, 2))
+//LETRAS	
+	game.addVisualIn(a, game.at(1, 12))
+	game.addVisualIn(b, game.at(2, 12))
+	game.addVisualIn(c, game.at(3, 12))
+	game.addVisualIn(d, game.at(4, 12))
+	game.addVisualIn(e, game.at(5, 12))
+	game.addVisualIn(f, game.at(6, 12))
+	game.addVisualIn(g, game.at(7, 12))
+	game.addVisualIn(h, game.at(8, 12))
+	game.addVisualIn(i, game.at(9, 12))
+	game.addVisualIn(j, game.at(10, 12))
+	game.addVisualIn(k, game.at(11, 12))
+	game.addVisualIn(l, game.at(12, 12))
+	game.addVisualIn(m, game.at(13, 12))
+	game.addVisualIn(n, game.at(14, 12))
+	game.addVisualIn(o, game.at(15, 12))
+	game.addVisualIn(p, game.at(16, 12))
+	game.addVisualIn(q, game.at(17, 12))
+	game.addVisualIn(r, game.at(18, 12))
+	game.addVisualIn(s, game.at(19, 12))
+	game.addVisualIn(t, game.at(20, 12))
+	game.addVisualIn(u, game.at(21, 12))
+	game.addVisualIn(v, game.at(22, 12))
+	game.addVisualIn(w, game.at(23, 12))
+	game.addVisualIn(x, game.at(24, 12))
+	game.addVisualIn(y, game.at(25, 12))
+	game.addVisualIn(z, game.at(26, 12))
+	
+	
+// STATUS
+
+	// Es el fondo blanco para el titulo del juego
+	game.addVisualIn(fondoStatus, game.at(0,13))
+	
+	//Es lo que se llama personaje o character, se puede mover con las flechitas, tiene limites en suposicion establecidos mas abajo
+	//Con el se podran descubrir las casillas enigmaticas que dara o quitaran puntos, o daran o quitaran vidas.
+	//La idea es que la mira produzca efecto para los dos jugadores, un "tiro" por cada turno
+	game.addVisualCharacter(mira)
+	
+
+	//Estos son los elementos del juego, tengo que ver como ponerlos sin que se muestren, y sean descubiertos una vez se seleccionen con la mira
+
+
+
+/*
+ 	game.addVisualIn(agua, game.at(random.fila(), random.columna()))
+	game.addVisualIn(barcoDePesca, game.at(random.fila(), random.columna()))
+	game.addVisualIn(barcoNormal, game.at(random.fila(), random.columna()))
+	game.addVisualIn(barcoVelero, game.at(random.fila(), random.columna()))
+	game.addVisualIn(barcoVikingo, game.at(random.fila(), random.columna()))
+	game.addVisualIn(crucero, game.at(random.fila(), random.columna()))
+	game.addVisualIn(motoAcuatica, game.at(random.fila(), random.columna()))
+	game.addVisualIn(nadador, game.at(random.fila(), random.columna()))
+	game.addVisualIn(bomba, game.at(random.fila(), random.columna()))
+	game.addVisualIn(vida, game.at(random.fila(), random.columna()))
+ 
+ */
+	
+
+	//La idea es que ambos personajes tengan estado, es decir las vidas y puntajes que tienen 
+	game.addVisualIn(mario, game.at(0,0))
+	game.addVisualIn(luigi, game.at(26,0))
+	
+	//limites de la mira,
+	
+	var numeros=[uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez]
+	numeros.forEach({numero=>game.whenCollideDo(numero,{mira=>numero.empuja(mira)})})
+	
+	var letras=[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
+	letras.forEach({letra=>game.whenCollideDo(letra,{mira=>letra.empuja(mira)})})
+	 
+
+game.start()
+}
