@@ -7,13 +7,9 @@ program BatallaNaval
 	game.height(14)
 	game.width(11)
 	game.ground("wat.png")
-	
 
-
-
-game.addVisualIn(blanco, game.at(0, 12))
-
-
+//Fondo blanco para los numeros
+	game.addVisualIn(blanco, game.at(0, 12))
 
 //NUMEROS
 	game.addVisualIn(uno, game.at(0, 11))
@@ -26,6 +22,7 @@ game.addVisualIn(blanco, game.at(0, 12))
 	game.addVisualIn(ocho, game.at(0, 4))
 	game.addVisualIn(nueve, game.at(0, 3))
 	game.addVisualIn(diez, game.at(0, 2))
+	
 //LETRAS	
 	game.addVisualIn(a, game.at(1, 12))
 	game.addVisualIn(b, game.at(2, 12))
@@ -41,6 +38,8 @@ game.addVisualIn(blanco, game.at(0, 12))
 	game.addVisualIn(l, game.at(12, 12))
 	game.addVisualIn(m, game.at(13, 12))
 	game.addVisualIn(n, game.at(14, 12))
+	
+	/* Quito estas letras porque el tablero era demasiado grande
 	game.addVisualIn(o, game.at(15, 12))
 	game.addVisualIn(p, game.at(16, 12))
 	game.addVisualIn(q, game.at(17, 12))
@@ -53,7 +52,7 @@ game.addVisualIn(blanco, game.at(0, 12))
 	game.addVisualIn(x, game.at(24, 12))
 	game.addVisualIn(y, game.at(25, 12))
 	game.addVisualIn(z, game.at(26, 12))
-	
+	*/
 	
 // STATUS
 
@@ -67,9 +66,8 @@ game.addVisualIn(blanco, game.at(0, 12))
 	
 
 	//Estos son los elementos del juego, tengo que ver como ponerlos sin que se muestren, y sean descubiertos una vez se seleccionen con la mira
-
-
-
+	//Son añadidos aleatoriamente en el tablero para luego ser descubiertos por la mira, actualmente estan visibles pero planeo
+	//Seleccionar una posicion y añadir un elemento random, que causara efecto en el estado del usuario
 /*
  	game.addVisualIn(agua, game.at(random.fila(), random.columna()))
 	game.addVisualIn(barcoDePesca, game.at(random.fila(), random.columna()))
@@ -94,7 +92,7 @@ game.addVisualIn(blanco, game.at(0, 12))
 	var numeros=[uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez]
 	numeros.forEach({numero=>game.whenCollideDo(numero,{mira=>numero.empuja(mira)})})
 	
-	var letras=[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
+	var letras=[a,b,c,d,e,f,g,h,i,j]
 	letras.forEach({letra=>game.whenCollideDo(letra,{mira=>letra.empuja(mira)})})
 	 
 
