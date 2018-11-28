@@ -3,32 +3,79 @@ object random
 {
 	method fila()
 	{
-		return (1..27).anyOne()
+		return (1..12).anyOne()
 	}
 	
 	method columna()
 	{
-		return (2..11).anyOne()
+		return (1..10).anyOne()
 	}
 	
 }
 
-object luigi
+object reglas
 {
-	method imagen() = "luigi.png"
+	method imagen() = "reglas.png"
 }
-
-object mario
-{
-	method imagen() = "mario.png"
-}
-
 	 
 object mira
 {
 	var posicion = new Position(1,11)
+	var apuntado = false
+	var posicionesDisparadas=[]
 	method imagen() = "mira.png"
 	method posicion() = posicion
+	method disparar()
+	{
+		if(barcoDeBatalla.puedeDisparar())
+		{
+			if (!apuntado)
+			{
+				posicion.drawElement(misil)
+				apuntado=true
+			}
+			else
+			{
+				var elementoGenerado = elementos.generar()
+				var x = posicion.x()
+				var y= posicion.y()
+				if(posicionesDisparadas.contains([x,y]))
+				{
+					 game.say(self, "Ya has disparado aqui, prueba en otro lado")
+					 posicion.drawElement(self)
+				}
+				else
+				{
+					posicionesDisparadas.add([x,y])
+					posicion.drawElement(self)
+					game.addVisualIn(elementoGenerado, game.at(x, y))
+					elementoGenerado.producirEfecto()
+					barcoDeBatalla.mostrarEstado()		
+				}
+				self.posicion().moveRight(1)
+				apuntado=false
+			}
+		}
+		else
+		{
+			barcoDeBatalla.recordarPerdida()
+		}
+		
+		
+			
+	}
+		
+}
+
+
+object elementos
+{
+	var elementosEspeciales = [vida, bomba, agua, barcoNormal, barcoDePesca, agua, barcoVelero, barcoVikingo, agua, crucero, motoAcuatica, agua, nadador]
+	method generar()
+	{
+		return elementosEspeciales.anyOne()
+		
+	}
 }
 
 object wat
@@ -41,6 +88,62 @@ object blanco
 	method imagen() ="fondo.png"
 }
 
+object barcoDeBatalla
+{
+	var puntaje=0
+	var vidas=3
+	method imagen() = "barcoDeBatalla.png"
+	method producirEfecto(elementoEspecial)
+	{
+		elementoEspecial.producirEfecto()
+	}
+	
+	method modificarPuntaje(puntos)
+	{
+		puntaje+=puntos
+	}
+	
+	method modificarVida(vida)
+	{
+		vidas+=vida
+	}
+	
+	method mostrarEstado()
+	{
+		if (vidas>0)
+		game.say(self, "VIDAS: " + vidas + "PUNTAJE: " + puntaje)
+		else
+		self.perder()
+	}
+	
+	method perder()
+	{
+		game.say(self, "NO TE QUEDAN VIDAS PUNTAJE: " + puntaje)
+	}
+	
+	method recordarPerdida()
+	{
+		game.say(self, "RECORDA QUE NO TE QUEDAN VIDAS, PUNTAJE: " + puntaje)
+	}
+	
+	method puedeDisparar()
+	{
+		if (vidas<1)
+		{
+			self.perder()
+		}
+		return true
+	}
+	
+}
+
+object misil
+{
+	method imagen() = "misil.png"
+	
+	method posicion() = mira.posicion()
+	
+}
 class LimiteIzq
 {
 	method empuja(mira)
@@ -156,86 +259,6 @@ object j inherits LimiteSup
 	method imagen() = "j.png"
 }
 
-object k inherits LimiteSup
-{
-	method imagen() = "k.png"
-}
-
-object l inherits LimiteSup
-{
-	method imagen() = "l.png"
-}
-
-object m inherits LimiteSup
-{
-	method imagen() = "m.png"
-}
-
-object n inherits LimiteSup
-{
-	method imagen() = "n.png"
-}
-
-object o inherits LimiteSup
-{
-	method imagen() = "o.png"
-}
-
-object p inherits LimiteSup
-{
-	method imagen() = "p.png"
-}
-
-object q inherits LimiteSup
-{
-	method imagen() = "q.png"
-}
-
-object r inherits LimiteSup
-{
-	method imagen() = "r.png"
-}
-
-object s inherits LimiteSup
-{
-	method imagen() = "s.png"
-}
-
-object t inherits LimiteSup
-{
-	method imagen() = "t.png"
-}
-
-object u inherits LimiteSup
-{
-	method imagen() = "u.png"
-}
-
-object v inherits LimiteSup
-{
-	method imagen() = "v.png"
-}
-
-object w inherits LimiteSup
-{
-	method imagen() = "w.png"
-}
-
-object x inherits LimiteSup
-{
-	method imagen() = "x.png"
-}
-
-object y inherits LimiteSup
-{
-	method imagen() = "y.png"
-}
-
-object z inherits LimiteSup
-{
-	method imagen() = "z.png"
-}
-
 object fondoStatus
 {
 	method imagen() = "fondoStatus.png"
@@ -244,48 +267,89 @@ object fondoStatus
 object agua
 {
 	method imagen() = "agua.png"
+	
+	method producirEfecto(){}
+
 }
 
-object barcoDePesca
+object barcoDePesca 
 {
+	const puntos=10
+	
 	method imagen() = "barcoDePesca.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
+	
 }
 
-object barcoNormal
+object barcoNormal 
 {
+	const puntos=5
+	
 	method imagen() = "barcoNormal.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
+	
 }
 
-object barcoVelero
+object barcoVelero 
 {
+	const puntos=15
+	
 	method imagen() = "barcoVelero.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
 }
 
-object barcoVikingo
+object barcoVikingo 
 {
+	const puntos=20
+	
 	method imagen() = "barcoVikingo.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
 }
 
-object crucero
+object crucero 
 {
+	const puntos=150
+	
 	method imagen() = "crucero.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
 }
 
-object motoAcuatica
+object motoAcuatica 
 {
+	const puntos=-20
+	
 	method imagen() = "motoAcuatica.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
 }
 
-object nadador
+object nadador 
 {
+	const puntos=-10
+	
 	method imagen() = "nadador.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarPuntaje(puntos)}
 }
-object bomba
+object bomba 
 {
+	const afectaVida=-1
+	
 	method imagen() = "bomba.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarVida(afectaVida)}
 }
 
 object vida 
-{
+{	
+	const afectaVida=1
+	
 	method imagen() = "vida.png"
+	
+	method producirEfecto() {barcoDeBatalla.modificarVida(afectaVida)}
 }
