@@ -7,44 +7,42 @@ program BatallaNaval
 	game.height(14)
 	game.width(11)
 	game.ground("wat.png")
-
-//Fondo blanco para los numeros
-	game.addVisualIn(blanco, game.at(0, 11))
 	
 //Reglas del juego
-    game.addVisualIn(reglas, game.at(0,12))
+    game.addVisualIn(reglas, game.at(0,11))
 
 //Barco de batalla y misil
-	game.addVisualIn(barcoDeBatalla, game.at(0,0))
+	game.addVisualIn(barcoDeBatalla, game.at(0,10))
 
 //NUMEROS
-	game.addVisualIn(uno, game.at(0, 10))
-	game.addVisualIn(dos, game.at(0, 9))
-	game.addVisualIn(tres, game.at(0, 8))
-	game.addVisualIn(cuatro, game.at(0, 7))
-	game.addVisualIn(cinco, game.at(0, 6))
-	game.addVisualIn(seis, game.at(0, 5))
-	game.addVisualIn(siete, game.at(0, 4))
-	game.addVisualIn(ocho, game.at(0, 3))
-	game.addVisualIn(nueve, game.at(0, 2))
-	game.addVisualIn(diez, game.at(0, 1))
+	game.addVisualIn(uno, game.at(0, 9))
+	game.addVisualIn(dos, game.at(0, 8))
+	game.addVisualIn(tres, game.at(0, 7))
+	game.addVisualIn(cuatro, game.at(0, 6))
+	game.addVisualIn(cinco, game.at(0, 5))
+	game.addVisualIn(seis, game.at(0, 4))
+	game.addVisualIn(siete, game.at(0, 3))
+	game.addVisualIn(ocho, game.at(0, 2))
+	game.addVisualIn(nueve, game.at(0, 1))
+	game.addVisualIn(diez, game.at(0, 0))
 	
 //LETRAS	
-	game.addVisualIn(a, game.at(1, 11))
-	game.addVisualIn(b, game.at(2, 11))
-	game.addVisualIn(c, game.at(3, 11))
-	game.addVisualIn(d, game.at(4, 11))
-	game.addVisualIn(e, game.at(5, 11))
-	game.addVisualIn(f, game.at(6, 11))
-	game.addVisualIn(g, game.at(7, 11))
-	game.addVisualIn(h, game.at(8, 11))
-	game.addVisualIn(i, game.at(9, 11))
-	game.addVisualIn(j, game.at(10, 11))
+	game.addVisualIn(a, game.at(1, 10))
+	game.addVisualIn(b, game.at(2, 10))
+	game.addVisualIn(c, game.at(3, 10))
+	game.addVisualIn(d, game.at(4, 10))
+	game.addVisualIn(e, game.at(5, 10))
+	game.addVisualIn(f, game.at(6, 10))
+	game.addVisualIn(g, game.at(7, 10))
+	game.addVisualIn(h, game.at(8, 10))
+	game.addVisualIn(i, game.at(9, 10))
+	game.addVisualIn(j, game.at(10, 10))
 	
 // STATUS
 	game.addVisualCharacter(mira)
-	keyboard.a().onPressDo { game.say(barcoDeBatalla, "Este eres tu,comienzas con 0 PUNTOS y 3 VIDAS") }
+	keyboard.a().onPressDo {barcoDeBatalla.presentarse()}
 	keyboard.space().onPressDo { mira.disparar() }
+	keyboard.s().onPressDo {barcoDeBatalla.dejarSinVidas()}
 	
 	
 //limites de la mira,
@@ -54,8 +52,8 @@ program BatallaNaval
 	
 	var letras=[a,b,c,d,e,f,g,h,i,j]
 	letras.forEach({letra=>game.whenCollideDo(letra,{mira=>letra.empuja(mira)})})
-	 
-
+	
+	
 
 game.start()
 

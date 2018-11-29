@@ -20,7 +20,7 @@ object reglas
 	 
 object mira
 {
-	var posicion = new Position(1,11)
+	var posicion = new Position(1,9)
 	var apuntado = false
 	var posicionesDisparadas=[]
 	method imagen() = "mira.png"
@@ -76,6 +76,39 @@ object elementos
 		return elementosEspeciales.anyOne()
 		
 	}
+/* 
+	* Otra manera de ralizarlo, me parecio muy engorroso tener q poner 75 aguas, quiza hay una forma mejor de solucionarlo, de todas maneras 
+	* me parece que hacerlo aleatoriamente como esta arriba es lo mas conveniente, debido al tamaño del tablero y a que los barcos solo son
+	* de un cuadradito y con improbabilidad de poder usar la logica como en la batalla naval normal de probar a un costado u otro para impactar
+	* otro segmento del barco y asi lograr undirlo entero
+	
+	
+	// Hay 1 vida, 3 bombas, 75 aguas, 8 barcos normales, 3 barcos de pesca, 2 veleros, 2 vikingos, un crucero, 2 motos acuaticas, 3 nadadores
+	
+	var elementosEspeciales = [vida, 
+		bomba, bomba, bomba, 
+		agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, 
+		agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, 
+		agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, agua, 
+		barcoNormal, barcoNormal, barcoNormal, barcoNormal, barcoNormal, barcoNormal, barcoNormal, barcoNormal, 
+		barcoDePesca, barcoDePesca, barcoDePesca, 
+		barcoVelero, barcoVelero, 
+		barcoVikingo, barcoVikingo, 
+		crucero, 
+		motoAcuatica, motoAcuatica, 
+		nadador, nadador, nadador ]
+	
+	// Se generarian candidad limitadas de barcos, el resto seria agua, cada vez que uno de ellos es generado, es quitado de la lista. Siguen 
+	* siedo colocados de manera aleatoria al presionar el Space
+	
+	method generar()
+	{
+		var elementoGenerado = elementosEspeciales.anyOne()
+		elementosEspeciales.remove(elementoGenerado)
+		return elementoGenerado	
+	}
+	
+*/
 }
 
 object wat
@@ -93,6 +126,17 @@ object barcoDeBatalla
 	var puntaje=0
 	var vidas=3
 	method imagen() = "barcoDeBatalla.png"
+	
+	method dejarSinVidas()
+	{
+		vidas=0
+	}
+	
+	method presentarse()
+	{
+	game.say(self, "Este eres tu, comienzas con VIDAS: " + vidas + "  PUNTAJE: " + puntaje) 
+	} 
+	
 	method producirEfecto(elementoEspecial)
 	{
 		elementoEspecial.producirEfecto()
@@ -111,7 +155,7 @@ object barcoDeBatalla
 	method mostrarEstado()
 	{
 		if (vidas>0)
-		game.say(self, "VIDAS: " + vidas + "PUNTAJE: " + puntaje)
+		game.say(self, "VIDAS: " + vidas + "  PUNTAJE: " + puntaje)
 		else
 		self.perder()
 	}
@@ -128,11 +172,7 @@ object barcoDeBatalla
 	
 	method puedeDisparar()
 	{
-		if (vidas<1)
-		{
-			self.perder()
-		}
-		return true
+		return vidas>0
 	}
 	
 }
@@ -144,6 +184,7 @@ object misil
 	method posicion() = mira.posicion()
 	
 }
+
 class LimiteIzq
 {
 	method empuja(mira)
@@ -269,7 +310,6 @@ object agua
 	method imagen() = "agua.png"
 	
 	method producirEfecto(){}
-
 }
 
 object barcoDePesca 
