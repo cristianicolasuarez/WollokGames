@@ -10,7 +10,17 @@ object random
 	{
 		return (1..10).anyOne()
 	}
-	
+}
+
+object interfaz
+{
+	method iniciar()
+	{
+		if(!mira.seDisparo())
+			barcoDeBatalla.presentarse()
+		else
+			barcoDeBatalla.mostrarEstado()
+	}
 }
 
 object reglas
@@ -25,6 +35,12 @@ object mira
 	var posicionesDisparadas=[]
 	method imagen() = "mira.png"
 	method posicion() = posicion
+	
+	method seDisparo()
+	{
+		return  posicionesDisparadas.size()!=0
+	}
+
 	method disparar()
 	{
 		if(barcoDeBatalla.puedeDisparar())
@@ -41,7 +57,7 @@ object mira
 				var y= posicion.y()
 				if(posicionesDisparadas.contains([x,y]))
 				{
-					 game.say(self, "Ya has disparado aqui, prueba en otro lado")
+					 game.say(barcoDeBatalla, "Ya has disparado alli, prueba en otro lado")
 					 posicion.drawElement(self)
 				}
 				else
@@ -53,6 +69,7 @@ object mira
 					barcoDeBatalla.mostrarEstado()		
 				}
 				self.posicion().moveRight(1)
+				
 				apuntado=false
 			}
 		}
@@ -60,17 +77,14 @@ object mira
 		{
 			barcoDeBatalla.recordarPerdida()
 		}
-		
-		
-			
 	}
-		
+	
 }
 
 
 object elementos
 {
-	var elementosEspeciales = [vida, bomba, agua, barcoNormal, barcoDePesca, agua, barcoVelero, barcoVikingo, agua, crucero, motoAcuatica, agua, nadador]
+	var elementosEspeciales = [bomba, agua, barcoNormal, barcoNormal, barcoNormal, barcoDePesca, barcoDePesca, agua, barcoVelero, barcoVikingo, agua, crucero, motoAcuatica, agua, nadador]
 	method generar()
 	{
 		return elementosEspeciales.anyOne()
@@ -144,7 +158,7 @@ object barcoDeBatalla
 	
 	method modificarPuntaje(puntos)
 	{
-		puntaje+=puntos
+		puntaje=(puntaje+puntos).max(0)
 	}
 	
 	method modificarVida(vida)
@@ -175,6 +189,13 @@ object barcoDeBatalla
 		return vidas>0
 	}
 	
+	method reiniciar()
+	{
+		puntaje=0
+		vidas=3
+		self.mostrarEstado()
+	}
+	
 }
 
 object misil
@@ -189,7 +210,7 @@ class LimiteIzq
 {
 	method empuja(mira)
 	{
-		mira.posicion().moveRight(1)
+		mira.posicion().moveRight(10)
 	}
 	
 }
@@ -247,7 +268,7 @@ class LimiteSup
 {
 	method empuja(mira)
 	{
-		mira.posicion().moveDown(1)
+		mira.posicion().moveDown(10)
 	}
 }
 object a inherits LimiteSup

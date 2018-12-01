@@ -40,9 +40,11 @@ program BatallaNaval
 	
 // STATUS
 	game.addVisualCharacter(mira)
-	keyboard.a().onPressDo {barcoDeBatalla.presentarse()}
+	keyboard.i().onPressDo {interfaz.iniciar()}
 	keyboard.space().onPressDo { mira.disparar() }
-	keyboard.s().onPressDo {barcoDeBatalla.dejarSinVidas()}
+	keyboard.m().onPressDo {barcoDeBatalla.dejarSinVidas()}
+	keyboard.r().onPressDo {barcoDeBatalla.reiniciar()}
+	
 	
 	
 //limites de la mira,
